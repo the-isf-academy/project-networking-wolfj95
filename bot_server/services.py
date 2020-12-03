@@ -40,10 +40,13 @@ def search(query):
     """ Searches Wolfram Alpha for a query and returns
     the result.
     """
-    url_query = "%20".join(query.split())
     app_id = "RPWJ2Y-U4APVU2YT7"
-    address = "http://api.wolframalpha.com/v1/result?appid={}&i={}".format(app_id, url_query)
-    r = requests.get(address)
+    params = {
+            "i": query,
+            "appid": app_id
+    }
+    address = "http://api.wolframalpha.com/v1/result"
+    r = requests.get(address, params=params)
     if r.ok:
         return r.text
     else:

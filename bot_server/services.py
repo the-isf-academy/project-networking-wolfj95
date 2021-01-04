@@ -16,6 +16,21 @@ services_dict = {
         "help": []
 }
 
+def help():
+    message = "Hello! I'm the math bot. I can peform addition, subtraction,\n" \
+            "multiplication, or division on any two numbers. I can also answer\n" \
+            "your questions about mathematics (and osome other things too!).\n" \
+            "To use my services, send me a message like \"add 3 5\" and I will\n" \
+            "perform the calculation and send you the result in a message.\n" \
+            "\n" \
+            "Here are the commands you can use:\n" \
+            "add [num0] [num1]\n" \
+            "subtract [num0] [num1]\n" \
+            "multiply [num0] [num1]\n" \
+            "divide [num0] [num1]\n" \
+            "search [search query or question]"
+    return message
+
 def add(a, b):
     """ Adds two numbers together and returns the result.
     """

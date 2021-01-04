@@ -62,3 +62,4 @@ def format_arguments(service, args, services_dict):
             except:
                 errors.append("Type of argument {} is incorrect. {} expected.".format(i, services_dict[service][i]))
     return (formatted_args, errors)
+

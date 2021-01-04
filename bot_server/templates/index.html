@@ -1,0 +1,72 @@
+<!doctype html>
+  <head>
+    <style>
+      .service {
+        border: 1px solid black;
+        display: none;
+      }
+      .service-selected {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>{{name}}</h1>
+    <p>{{description}}</p>
+    <label for="service-select">Select a service</label>
+    <select id="service-select">
+      {% for service in services %}
+        <option value="service-{{service.name}}"{% if service.name == service_name %} selected{% endif %}>{{service.name}}</option>
+      {% endfor %}
+    </select>
+    <div id="services">
+      {% for service in services %}
+        <div id="service-{{service.name}}" class="service">
+          <h2>{{service.name}}</h2>
+          <p>{{service.description}}</p>
+          <form method="post" action="/">
+            {% for argname, argtype in service.arguments %}
+              <label for="{{argname}}">{{argname}}</label>
+              {% if argtype.__name__ == "str" %}
+                <input name="{{argname}}" type="text" value="{{service_args.get(argname, '')}}">
+              {% elif argtype.__name__ == "int" %}
+                <input name="{{argname}}" type="number" step="1" value="{{service_args.get(argname, 0)}}">
+              {% elif argtype.__name__ == "float" %}
+                <input name="{{argname}}" type="number" value="{{service_args.get(argname, 0)}}">
+              {% elif argtype.__name__ == "bool" %}
+                <input name="{{argname}}" type="checkbox" value="{{service_args.get(argname, 0)}}">
+              {% else %}
+                <p class="error">Arg type {{argtype}} for input '{{argname}}' is not supported.</p>
+              {% endif %}
+            {% endfor %}
+            <input type="hidden" name="service" value="{{service.name}}">
+            <input type="submit" value="Submit">
+          </form>
+        </div>
+      {% endfor %}
+    </div>
+    {% if message %}
+      <div class="message message-{{message.status}}">
+        {{message.content}}
+      </div>
+    {% endif %}
+    <script>
+        let services = document.getElementsByClassName("service");
+        let showService = function() {
+          let serviceId = document.getElementById("service-select").value;
+          console.log("serviceId " + serviceId)
+          for (let i = 0; i < services.length; i++) {
+            let service = services[i];
+            if (service.id === serviceId) {
+              service.classList.add("service-selected");      
+            } 
+            else {
+              service.classList.remove("service-selected");      
+            }
+          }
+        }
+        document.getElementById("service-select").addEventListener("change", showService);
+        showService()
+    </script>
+  </body>
+</html>
